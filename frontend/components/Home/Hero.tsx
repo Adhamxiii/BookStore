@@ -1,0 +1,444 @@
+"use client";
+
+import { useEffect, useRef, useCallback, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { gsap } from "gsap";
+import { Observer } from "gsap/Observer";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(Observer, SplitText);
+
+interface SectionData {
+  text: string;
+  img: string;
+}
+
+interface AnimatedSectionsProps {
+  sections?: SectionData[];
+  className?: string;
+  headerTitle?: string;
+}
+
+const defaultSections: SectionData[] = [
+  {
+    text: "Shop our Products with Best Price",
+    img: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg",
+  },
+  {
+    text: "History, Science, Kids, and more",
+    img: "https://images.pexels.com/photos/694740/pexels-photo-694740.jpeg",
+  },
+  {
+    text: "Discount Up To 40%",
+    img: "https://images.pexels.com/photos/775998/pexels-photo-775998.jpeg",
+  },
+];
+
+const Hero = ({
+  sections = defaultSections,
+  className,
+  headerTitle,
+}: AnimatedSectionsProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<any>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const splitHeadingsRef = useRef<SplitText[]>([]);
+  const currentIndexRef = useRef<number>(-1);
+  const animatingRef = useRef<boolean>(false);
+  const sectionsRefs = useRef<HTMLElement[]>([]);
+  const imagesRefs = useRef<HTMLDivElement[]>([]);
+  const outerRefs = useRef<HTMLDivElement[]>([]);
+  const innerRefs = useRef<HTMLDivElement[]>([]);
+  const headingRefs = useRef<HTMLHeadingElement[]>([]);
+  const counterCurrentRef = useRef<HTMLSpanElement | null>(null);
+  const counterNextRef = useRef<HTMLSpanElement | null>(null);
+  const counterCurrentSplitRef = useRef<SplitText | null>(null);
+  const counterNextSplitRef = useRef<SplitText | null>(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isHeroInView, setIsHeroInView] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    let loaded = 0;
+    sections.forEach((section) => {
+      const img = new Image();
+      img.src = section.img;
+      img.onload = () => {
+        loaded++;
+        if (loaded === sections.length) {
+          setImagesLoaded(true);
+        }
+      };
+      img.onerror = () => {
+        loaded++;
+        if (loaded === sections.length) {
+          setImagesLoaded(true);
+        }
+      };
+    });
+  }, [sections]);
+
+  const gotoSection = useCallback((index: number, direction: number) => {
+    if (!containerRef.current || animatingRef.current) return;
+
+    const sectionsElements = sectionsRefs.current as Element[];
+    const images = imagesRefs.current as Element[];
+    const outerWrappers = outerRefs.current as Element[];
+    const innerWrappers = innerRefs.current as Element[];
+
+    const wrap = gsap.utils.wrap(0, sectionsElements.length);
+    index = wrap(index);
+    animatingRef.current = true;
+
+    const fromTop = direction === -1;
+    const dFactor = fromTop ? -1 : 1;
+
+    const tl = gsap.timeline({
+      defaults: { duration: 1.25, ease: "power1.inOut" },
+      onComplete: () => {
+        animatingRef.current = false;
+      },
+    });
+
+    timelineRef.current = tl;
+
+    if (currentIndexRef.current >= 0) {
+      gsap.set(sectionsElements[currentIndexRef.current], { zIndex: 0 });
+      tl.to(images[currentIndexRef.current], { xPercent: -15 * dFactor }).set(
+        sectionsElements[currentIndexRef.current],
+        { autoAlpha: 0 }
+      );
+    }
+
+    gsap.set(sectionsElements[index], { autoAlpha: 1, zIndex: 1 });
+
+    tl.fromTo(
+      [outerWrappers[index], innerWrappers[index]],
+      {
+        xPercent: (i: number) => (i ? -100 * dFactor : 100 * dFactor),
+      },
+      { xPercent: 0 },
+      0
+    ).fromTo(images[index], { xPercent: 15 * dFactor }, { xPercent: 0 }, 0);
+
+    if (
+      splitHeadingsRef.current[index] &&
+      splitHeadingsRef.current[index].lines
+    ) {
+      const lines = splitHeadingsRef.current[index].lines;
+
+      gsap.set(lines, {
+        opacity: 0,
+        yPercent: 100,
+      });
+
+      tl.to(
+        lines,
+        {
+          opacity: 1,
+          yPercent: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: {
+            each: 0.1,
+            from: "start",
+          },
+        },
+        0.4
+      );
+    }
+
+    if (counterCurrentRef.current && counterNextRef.current) {
+      if (!counterCurrentSplitRef.current) {
+        counterCurrentSplitRef.current = new SplitText(
+          counterCurrentRef.current,
+          {
+            type: "lines",
+            linesClass: "line",
+            mask: "lines",
+          }
+        );
+      }
+
+      counterNextRef.current.textContent = String(index + 1);
+      gsap.set(counterNextRef.current, { opacity: 1 });
+
+      if (counterNextSplitRef.current) {
+        counterNextSplitRef.current.revert();
+        counterNextSplitRef.current = null;
+      }
+      counterNextSplitRef.current = new SplitText(counterNextRef.current, {
+        type: "lines",
+        linesClass: "line",
+        mask: "lines",
+      });
+
+      const currentLines = counterCurrentSplitRef.current?.lines || [];
+      const nextLines = counterNextSplitRef.current?.lines || [];
+
+      gsap.set(currentLines, { opacity: 1, yPercent: 0 });
+      gsap.set(nextLines, { opacity: 1, yPercent: 100 * dFactor });
+
+      tl.to(
+        currentLines,
+        {
+          yPercent: -100 * dFactor,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: { each: 0.1, from: "start" },
+        },
+        0.4
+      );
+      tl.to(
+        nextLines,
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: { each: 0.1, from: "start" },
+        },
+        0.4
+      ).add(() => {
+        if (counterCurrentSplitRef.current) {
+          counterCurrentSplitRef.current.revert();
+          counterCurrentSplitRef.current = null;
+        }
+        if (counterNextSplitRef.current) {
+          counterNextSplitRef.current.revert();
+          counterNextSplitRef.current = null;
+        }
+        if (counterCurrentRef.current && counterNextRef.current) {
+          counterCurrentRef.current.textContent =
+            counterNextRef.current.textContent;
+        }
+        gsap.set(counterNextRef.current, { opacity: 0, clearProps: "all" });
+      });
+    }
+
+    currentIndexRef.current = index;
+    setCurrentIndex(index);
+  }, []);
+
+  useGSAP(
+    () => {
+      if (!containerRef.current || !imagesLoaded) return;
+
+      gsap.registerPlugin(Observer, SplitText);
+
+      const headings = headingRefs.current as HTMLElement[];
+      const outerWrappers = outerRefs.current as Element[];
+      const innerWrappers = innerRefs.current as Element[];
+
+      splitHeadingsRef.current = headings.map(
+        (heading) =>
+          new SplitText(heading, {
+            type: "lines",
+            linesClass: "line",
+            mask: "lines",
+          })
+      );
+
+      gsap.set(outerWrappers, { xPercent: 100 });
+      gsap.set(innerWrappers, { xPercent: -100 });
+
+      if (isHeroInView) {
+        observerRef.current = Observer.create({
+          type: "wheel,touch,pointer",
+          wheelSpeed: -1,
+          onDown: () => {
+            if (!animatingRef.current) {
+              gotoSection(currentIndexRef.current - 1, -1);
+            }
+          },
+          onUp: () => {
+            if (animatingRef.current) return;
+            const lastIndex = sections.length - 1;
+            if (currentIndexRef.current < lastIndex) {
+              gotoSection(currentIndexRef.current + 1, 1);
+            } else {
+              if (observerRef.current) {
+                observerRef.current.kill();
+                observerRef.current = null;
+              }
+              const el = document.getElementById("highlights");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }
+          },
+          tolerance: 10,
+          preventDefault: true,
+        });
+      }
+
+      gotoSection(0, 1);
+
+      return () => {
+        if (observerRef.current) {
+          observerRef.current.kill();
+          observerRef.current = null;
+        }
+        if (timelineRef.current) {
+          timelineRef.current.kill();
+          timelineRef.current = null;
+        }
+        splitHeadingsRef.current.forEach((split) => {
+          if (split && typeof split.revert === "function") {
+            split.revert();
+          }
+        });
+        splitHeadingsRef.current = [];
+        if (
+          counterCurrentSplitRef.current &&
+          typeof counterCurrentSplitRef.current.revert === "function"
+        ) {
+          counterCurrentSplitRef.current.revert();
+          counterCurrentSplitRef.current = null;
+        }
+        if (
+          counterNextSplitRef.current &&
+          typeof counterNextSplitRef.current.revert === "function"
+        ) {
+          counterNextSplitRef.current.revert();
+          counterNextSplitRef.current = null;
+        }
+      };
+    },
+    {
+      scope: containerRef,
+      dependencies: [sections.length, imagesLoaded, isHeroInView],
+    }
+  );
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const inView = entry.isIntersecting && entry.intersectionRatio > 0.2;
+        setIsHeroInView(inView);
+        if (!inView && observerRef.current) {
+          observerRef.current.kill();
+          observerRef.current = null;
+        }
+      },
+      { root: null, threshold: [0, 0.2, 0.5, 1] }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div className="h-screen max-w-screen">
+      <div
+        ref={containerRef}
+        className={`relative h-screen w-full overflow-hidden bg-black text-white uppercase font-sans ${className}`}
+      >
+        <div className="pointer-events-none absolute bottom-8 left-1/2 z-40 -translate-x-1/2">
+          <Button
+            onClick={() => {
+              const el = document.getElementById("highlights");
+              if (el) {
+                el.style.scrollMarginTop = "80px";
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }}
+            className="pointer-events-auto bg-[#F86D72] hover:bg-[#dd6165] text-white px-6 py-2 rounded-full shadow-lg"
+          >
+            Explore Highlights
+          </Button>
+        </div>
+        <div className="absolute bottom-4 right-6 z-30 flex items-center gap-4">
+          <div className="flex gap-2">
+            {sections.map((section, i) => (
+              <div
+                key={`thumb-${i}`}
+                className="w-12 h-8 rounded overflow-hidden relative cursor-pointer transition-transform duration-300"
+                onClick={() => {
+                  if (currentIndex !== i && !animatingRef.current) {
+                    const direction = i > currentIndex ? 1 : -1;
+                    gotoSection(i, direction);
+                  }
+                }}
+              >
+                <img
+                  src={section.img}
+                  alt={`Section ${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                <div
+                  className={`absolute inset-0 bg-black transition-opacity duration-1000 ease-in-out ${
+                    currentIndex !== i ? "opacity-50" : "opacity-0"
+                  }`}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="text-xs md:text-sm tracking-wider flex items-center gap-1">
+            <div className="relative overflow-hidden h-[1em] leading-[1em] min-w-[0.8em]">
+              <span ref={counterCurrentRef} className="block">
+                1
+              </span>
+              <span
+                ref={counterNextRef}
+                className="block absolute left-0 top-0 opacity-0"
+              >
+                2
+              </span>
+            </div>
+            <span className="opacity-70">/ {sections.length}</span>
+          </div>
+        </div>
+
+        {sections.map((section, i) => (
+          <section
+            key={`section-${i}`}
+            className="absolute top-0 h-full w-full invisible"
+            ref={(el) => {
+              if (el) sectionsRefs.current[i] = el;
+            }}
+          >
+            <div
+              className="outer w-full h-full overflow-hidden"
+              ref={(el) => {
+                if (el) outerRefs.current[i] = el;
+              }}
+            >
+              <div
+                className="inner w-full h-full overflow-hidden"
+                ref={(el) => {
+                  if (el) innerRefs.current[i] = el;
+                }}
+              >
+                <div
+                  className="bg flex items-center justify-center absolute top-0 h-full w-full bg-cover bg-center"
+                  ref={(el) => {
+                    if (el) imagesRefs.current[i] = el;
+                  }}
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 100%), url("${section.img}")`,
+                  }}
+                >
+                  <h2
+                    className="section-heading text-white text-center font-semibold w-[90vw] max-w-[1200px] text-[clamp(1rem,4vw,9rem)] normal-case leading-none z-10"
+                    ref={(el) => {
+                      if (el) headingRefs.current[i] = el;
+                    }}
+                  >
+                    {section.text}
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Hero;
