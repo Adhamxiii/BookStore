@@ -2,8 +2,6 @@
 
 A modern, responsive e-commerce platform built for book lovers to discover, browse, and purchase books online. This full-stack application features a beautiful user interface with smooth animations, comprehensive admin dashboard, and secure user authentication.
 
-![BookStore Banner](https://via.placeholder.com/1200x400/ff6b6b/ffffff?text=BookStore+E-commerce+Platform)
-
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
