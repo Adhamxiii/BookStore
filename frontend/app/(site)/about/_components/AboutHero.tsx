@@ -69,7 +69,7 @@ const AboutHero = () => {
       if (titleRef.current) {
         titleRef.current.innerHTML = titleText
           .split("")
-          .map((char, i) => `<span class="char" style="display: inline-block;">${char === " " ? "&nbsp;" : char}</span>`)
+          .map((char) => `<span class="char" style="display: inline-block;">${char === " " ? "&nbsp;" : char}</span>`)
           .join("");
 
         const chars = titleRef.current.querySelectorAll(".char");
@@ -228,7 +228,7 @@ const AboutHero = () => {
           ref={subtitleRef}
           className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
         >
-          We're passionate about connecting readers with amazing books and creating
+          We&apos;re passionate about connecting readers with amazing books and creating
           a community where stories come alive. Our mission is to make literature
           accessible, affordable, and enjoyable for everyone.
         </p>

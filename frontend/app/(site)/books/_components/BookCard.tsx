@@ -200,7 +200,7 @@ const BookCard = ({ book, index }: BookCardProps) => {
       } else {
         toast.error(result.error || "Failed to add to cart");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to add to cart");
     } finally {
       setIsAdding(false);

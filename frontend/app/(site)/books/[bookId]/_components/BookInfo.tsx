@@ -104,7 +104,7 @@ const BookInfo = ({ book }: BookInfoProps) => {
       } else {
         toast.error(result.error || "Failed to add to cart");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to add to cart");
     } finally {
       setIsAdding(false);
@@ -119,7 +119,7 @@ const BookInfo = ({ book }: BookInfoProps) => {
           text: `Check out this amazing book: ${book.title} by ${book.author}`,
           url: window.location.href,
         });
-      } catch (error) {
+      } catch {
         navigator.clipboard.writeText(window.location.href);
         toast.success("Link copied to clipboard!");
       }

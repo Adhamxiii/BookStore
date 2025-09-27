@@ -8,7 +8,6 @@ import {
   Calendar,
   Key,
   Mail,
-  Palette,
   Settings,
   Shield,
   User,

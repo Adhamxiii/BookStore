@@ -7,6 +7,28 @@ import BookReviews from "./_components/BookReviews";
 import RelatedBooks from "./_components/RelatedBooks";
 import BookPageClient from "./_components/BookPageClient";
 
+interface Book {
+  _id: string;
+  title: string;
+  author: string;
+  price: number;
+  coverImage: string;
+  isOnSale?: boolean;
+  discountPercent?: number;
+  isFeatured?: boolean;
+  stock?: number;
+  createdAt?: string;
+  category?: {
+    _id: string;
+    name: string;
+  };
+  description?: string;
+  pages?: number;
+  language?: string;
+  publisher?: string;
+  isbn?: string;
+}
+
 interface BookDetailsPageProps {
   params: {
     bookId: string;
@@ -17,8 +39,8 @@ const BookDetailsPage: NextPage<BookDetailsPageProps> = async ({ params }) => {
   const { bookId } = params;
   const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-  let book: any = null;
-  let relatedBooks: any[] = [];
+  let book: Book | null = null;
+  let relatedBooks: Book[] = [];
   let error: string | null = null;
 
   try {
@@ -40,7 +62,7 @@ const BookDetailsPage: NextPage<BookDetailsPageProps> = async ({ params }) => {
 
     if (booksData.success) {
       relatedBooks = (booksData.data || [])
-        .filter((b: any) => b._id !== bookId && b.category?._id === book?.category?._id)
+        .filter((b: Book) => b._id !== bookId && b.category?._id === book?.category?._id)
         .slice(0, 4);
     }
   } catch (err) {

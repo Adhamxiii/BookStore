@@ -172,13 +172,13 @@ const BooksShowcase = ({ books, categories }: BooksShowcaseProps) => {
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Discover our carefully curated selection of must-read books that
-              have captured readers' hearts worldwide.
+              have captured readers&apos; hearts worldwide.
             </p>
           </div>
 
           {featuredBooks.length > 0 && (
             <div className="grid md:grid-cols-3 gap-8">
-              {featuredBooks.map((book, index) => (
+              {featuredBooks.map((book) => (
                 <Link
                   key={book._id}
                   href={`/books/${book._id}`}
@@ -244,14 +244,14 @@ const BooksShowcase = ({ books, categories }: BooksShowcaseProps) => {
               Hot Deals & Bestsellers
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Don't miss out on these amazing deals and trending titles that
-              everyone's talking about.
+              Don&apos;t miss out on these amazing deals and trending titles that
+              everyone&apos;s talking about.
             </p>
           </div>
 
           {trendingBooks.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {trendingBooks.map((book, index) => (
+              {trendingBooks.map((book) => (
                 <Link
                   key={book._id}
                   href={`/books/${book._id}`}
@@ -319,7 +319,7 @@ const BooksShowcase = ({ books, categories }: BooksShowcaseProps) => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {categories.map((category, index) => (
+            {categories.map((category) => (
               <Link key={category._id} href={`/books`} className="block">
                 <div className="category-card group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#F86D72] to-[#ff9aa1] rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">

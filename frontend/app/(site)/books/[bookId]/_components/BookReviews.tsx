@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Star, ThumbsUp, MessageCircle, User } from "lucide-react";
+import { Star, ThumbsUp, MessageCircle } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,7 +33,7 @@ interface BookReviewsProps {
   book: Book;
 }
 
-const BookReviews = ({ book }: BookReviewsProps) => {
+const BookReviews = ({}: BookReviewsProps) => {
   const reviewsRef = useRef<HTMLDivElement>(null);
 
   // Mock reviews data
@@ -152,7 +152,7 @@ const BookReviews = ({ book }: BookReviewsProps) => {
 
       {/* Reviews Grid */}
       <div className="grid md:grid-cols-2 gap-8">
-        {reviews.map((review, index) => (
+        {reviews.map((review) => (
           <div key={review.id} className="review-card bg-white rounded-3xl p-6 shadow-xl border border-gray-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-[#F86D72] to-[#ff9aa1] rounded-full flex items-center justify-center text-white font-bold text-lg">

@@ -87,11 +87,11 @@ const ContactCTA = () => {
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Ready to Connect?
             <br />
-            <span className="text-yellow-300">Let's Talk!</span>
+            <span className="text-yellow-300">Let&apos;s Talk!</span>
           </h2>
           
           <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-            We're here to help with any questions you might have. 
+            We&apos;re here to help with any questions you might have. 
             Reach out to us through any of our channels.
           </p>
 

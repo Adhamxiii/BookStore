@@ -169,7 +169,7 @@ const AdminActions = () => {
 
         {/* Quick Actions Grid */}
         <div className="actions-section grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {quickActions.map((action, index) => {
+          {quickActions.map((action) => {
             const IconComponent = action.icon;
             return (
               <Link key={action.id} href={action.href} className="action-card group">
@@ -211,7 +211,7 @@ const AdminActions = () => {
               Recent Activity
             </h3>
             <div className="space-y-4">
-              {recentActions.map((item, index) => {
+              {recentActions.map((item) => {
                 const IconComponent = item.icon;
                 return (
                   <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">

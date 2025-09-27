@@ -107,7 +107,7 @@ const RelatedBooks = ({ relatedBooks }: RelatedBooksProps) => {
 
       {/* Related Books Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {relatedBooks.map((book, index) => (
+        {relatedBooks.map((book) => (
           <Link key={book._id} href={`/books/${book._id}`} className="block">
             <div className="related-book group relative bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100">
               {/* Badges */}

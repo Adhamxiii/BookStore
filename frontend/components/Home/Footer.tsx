@@ -109,7 +109,7 @@ const Footer = () => {
                 />
               </Link>
               <p className="text-gray-300 leading-relaxed mb-6">
-                Your trusted destination for discovering amazing books. We're passionate about connecting readers with stories that inspire, educate, and entertain.
+                Your trusted destination for discovering amazing books. We&apos;re passionate about connecting readers with stories that inspire, educate, and entertain.
               </p>
               
               {/* Social Links */}

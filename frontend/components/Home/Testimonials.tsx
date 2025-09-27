@@ -144,13 +144,13 @@ const Testimonials = () => {
             What Our Readers Say
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Don't just take our word for it. Here's what our amazing community of book lovers has to say about their experience with us.
+            Don&apos;t just take our word for it. Here&apos;s what our amazing community of book lovers has to say about their experience with us.
           </p>
         </div>
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="testimonial-card group">
               <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 h-full flex flex-col">
                 {/* Quote Icon */}
@@ -167,7 +167,7 @@ const Testimonials = () => {
 
                 {/* Comment */}
                 <p className="text-gray-700 leading-relaxed mb-6 flex-1">
-                  "{testimonial.comment}"
+                  &quot;{testimonial.comment}&quot;
                 </p>
 
                 {/* Author */}

@@ -5,16 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Home,
-  DollarSign,
-  Monitor,
   ShoppingCart,
-  Tag,
-  BarChart3,
   Users,
   ChevronDown,
   ChevronsRight,
-  Settings,
-  HelpCircle,
 } from "lucide-react";
 
 const navItems = [
@@ -32,7 +26,7 @@ export default function Sidebar() {
       .filter((i) => pathname === i.href || pathname.startsWith(i.href + "/"))
       .sort((a, b) => b.href.length - a.href.length)[0];
     if (!match) {
-      match = navItems.find((i) => pathname === i.href) as any;
+      match = navItems.find((i) => pathname === i.href) as typeof navItems[0];
     }
     return match?.title ?? "Home";
   }, [pathname]);
@@ -63,7 +57,13 @@ export default function Sidebar() {
   );
 }
 
-function Option({ Icon, title, href, selected, open }: any) {
+function Option({ Icon, title, href, selected, open }: {
+  Icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  href: string;
+  selected: string;
+  open: boolean;
+}) {
   const isSelected = selected === title;
   return (
     <Link

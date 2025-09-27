@@ -55,8 +55,8 @@ const FormRegister = () => {
       const redirect =
         data?.redirect || (data?.data?.role === "admin" ? "/admin" : "/");
       router.replace(redirect);
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong");
+    } catch (err: unknown) {
+      setError((err as Error)?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

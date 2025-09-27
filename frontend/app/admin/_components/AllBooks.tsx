@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Trash2, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import toast from "react-hot-toast";
 
 const AllBooks = () => {
@@ -209,7 +209,7 @@ const AllBooks = () => {
                         <DialogDescription className="text-gray-600">
                           Are you sure you want to delete{" "}
                           <span className="font-semibold text-gray-900">
-                            "{book?.title}"
+                            &quot;{book?.title}&quot;
                           </span>
                           ? This action cannot be undone and will permanently
                           remove the book from your store.

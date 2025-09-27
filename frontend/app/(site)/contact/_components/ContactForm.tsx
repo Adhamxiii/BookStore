@@ -131,7 +131,7 @@ const ContactForm = () => {
           Send us a Message
         </h2>
         <p className="text-gray-600">
-          Fill out the form below and we'll get back to you as soon as possible
+          Fill out the form below and we&apos;ll get back to you as soon as possible
         </p>
       </div>
 

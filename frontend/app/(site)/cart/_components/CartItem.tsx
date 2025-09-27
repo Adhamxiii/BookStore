@@ -1,21 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { Minus, Plus, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContex";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-type Item = {
+export type Item = {
   book:
     | {
         _id: string;
         title?: string;
         price?: number;
         coverImage?: string | null;
-        isOnSale: boolean,
-        discountPercent: string,
+        isOnSale: boolean;
+        discountPercent: string;
       }
     | string;
   quantity: number;
@@ -35,14 +34,24 @@ const CartItem = ({ item }: { item: Item }) => {
   const stock =
     typeof item.book === "string"
       ? undefined
-      : (item.book as any)?.stock as number | undefined;
+      : (item.book as { stock?: number })?.stock;
 
   const isOnSale =
-    typeof item.book === "string" ? false : Boolean((item.book as any)?.isOnSale);
+    typeof item.book === "string"
+      ? false
+      : Boolean((item.book as { isOnSale?: boolean })?.isOnSale);
   const discountPercent =
     typeof item.book === "string"
       ? 0
-      : parseFloat(String((item.book as any)?.discountPercent || 0)) || 0;
+      : parseFloat(
+          String(
+            (
+              item.book as {
+                discountPercent?: string | number;
+              }
+            )?.discountPercent || 0
+          )
+        ) || 0;
   const price = Number(item.price || 0);
   const discounted =
     isOnSale && discountPercent > 0

@@ -17,7 +17,13 @@ const CartSummary = () => {
         item.book !== null &&
         "discountPercent" in item.book
       ) {
-        discountPercent = parseFloat((item.book as any).discountPercent) || 0;
+        discountPercent =
+          parseFloat(
+            String(
+              (item.book as { discountPercent?: string | number })
+                .discountPercent
+            )
+          ) || 0;
       }
       return acc + (item.price * item.quantity * discountPercent) / 100;
     }, 0) || 0;

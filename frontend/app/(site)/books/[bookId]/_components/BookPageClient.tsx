@@ -30,7 +30,7 @@ interface BookPageClientProps {
   error: string | null;
 }
 
-const BookPageClient = ({ book, relatedBooks, error }: BookPageClientProps) => {
+const BookPageClient = ({ error }: BookPageClientProps) => {
   if (error) {
     return (
       <div className="text-center py-20">

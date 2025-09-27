@@ -13,7 +13,7 @@ const AboutTeam = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
      
-      membersRef.current.forEach((member, index) => {
+      membersRef.current.forEach((member) => {
         if (member) {
           gsap.fromTo(
             member,

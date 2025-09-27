@@ -55,7 +55,7 @@ const AboutStats = () => {
         });
       });
 
-      countersRef.current.forEach((counter, index) => {
+      countersRef.current.forEach((counter) => {
         if (counter) {
           const target = parseInt(counter.dataset.target || "0");
 
@@ -255,7 +255,7 @@ const AboutStats = () => {
             Our Impact in Numbers
           </MagicalTitle>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            We're proud of the community we've built and the stories we've
+            We&apos;re proud of the community we&apos;ve built and the stories we&apos;ve
             shared
           </p>
         </div>

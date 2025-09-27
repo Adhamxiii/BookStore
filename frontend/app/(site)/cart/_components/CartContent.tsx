@@ -1,9 +1,26 @@
 "use client";
 
 import { useCart } from "@/context/CartContex";
-import CartItem from "./CartItem";
+import CartItem, { Item } from "./CartItem";
 import CartSummary from "./CartSummary";
 import EmptyCart from "./EmptyCart";
+
+interface CartItem {
+  _id?: string;
+  book:
+    | string
+    | {
+        _id: string;
+        title?: string;
+        price?: number;
+        coverImage?: string | null;
+        isOnSale?: boolean;
+        discountPercent?: string | number;
+        stock?: number;
+      };
+  quantity: number;
+  price: number;
+}
 
 const CartContent = () => {
   const { cart, loading } = useCart();
@@ -36,16 +53,8 @@ const CartContent = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-4">
-        {cart.items.map((item) => (
-          <CartItem
-            key={
-              (item as any)._id ||
-              (typeof (item as any).book === "string"
-                ? (item as any).book
-                : (item as any).book?._id)
-            }
-            item={item as any}
-          />
+        {cart.items.map((item, index) => (
+          <CartItem key={index} item={item as Item} />
         ))}
       </div>
       <div className="lg:col-span-1">

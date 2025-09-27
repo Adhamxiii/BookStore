@@ -20,7 +20,7 @@ const MagicalTitle = ({ children, className = "" }: MagicalTitleProps) => {
         const text = titleRef.current.textContent || "";
         titleRef.current.innerHTML = text
           .split("")
-          .map((char, i) => 
+          .map((char) => 
             `<span class="char" style="display: inline-block; opacity: 0; transform: translateY(50px) rotateX(90deg);">${char === " " ? "&nbsp;" : char}</span>`
           )
           .join("");

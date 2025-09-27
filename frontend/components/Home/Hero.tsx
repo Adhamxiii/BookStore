@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import Image from "next/image";
 
 gsap.registerPlugin(Observer, SplitText);
 
@@ -17,7 +18,6 @@ interface SectionData {
 interface AnimatedSectionsProps {
   sections?: SectionData[];
   className?: string;
-  headerTitle?: string;
 }
 
 const defaultSections: SectionData[] = [
@@ -38,10 +38,9 @@ const defaultSections: SectionData[] = [
 const Hero = ({
   sections = defaultSections,
   className,
-  headerTitle,
 }: AnimatedSectionsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<any>(null);
+  const observerRef = useRef<Observer | null>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const splitHeadingsRef = useRef<SplitText[]>([]);
   const currentIndexRef = useRef<number>(-1);
@@ -62,7 +61,7 @@ const Hero = ({
   useEffect(() => {
     let loaded = 0;
     sections.forEach((section) => {
-      const img = new Image();
+      const img = new window.Image();
       img.src = section.img;
       img.onload = () => {
         loaded++;
@@ -364,9 +363,10 @@ const Hero = ({
                   }
                 }}
               >
-                <img
+                <Image
                   src={section.img}
                   alt={`Section ${i + 1}`}
+                  fill
                   className="w-full h-full object-cover"
                 />
                 <div

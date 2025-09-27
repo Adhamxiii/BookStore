@@ -68,7 +68,7 @@ const BooksHero = () => {
         titleRef.current.innerHTML = titleText
           .split("")
           .map(
-            (char, i) =>
+            (char) =>
               `<span class="char" style="display: inline-block;">${
                 char === " " ? "&nbsp;" : char
               }</span>`

@@ -33,7 +33,6 @@ interface BooksPageClientProps {
 
 const BooksPageClient = ({
   books,
-  categories,
   error,
 }: BooksPageClientProps) => {
   if (error) {

@@ -183,7 +183,7 @@ const AdminStats = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stats.map((stat, index) => {
+          {stats.map((stat) => {
             const IconComponent = stat.icon;
             return (
               <div key={stat.id} className="stat-card group">
@@ -250,7 +250,7 @@ const AdminStats = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-gray-600">New book "The Great Adventure" added</span>
+                <span className="text-gray-600">New book &quot;The Great Adventure&quot; added</span>
                 <span className="text-sm text-gray-400 ml-auto">2 min ago</span>
               </div>
               <div className="flex items-center gap-3">
@@ -265,7 +265,7 @@ const AdminStats = () => {
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                <span className="text-gray-600">Category "Mystery" updated</span>
+                <span className="text-gray-600">Category &quot;Mystery&quot; updated</span>
                 <span className="text-sm text-gray-400 ml-auto">15 min ago</span>
               </div>
             </div>

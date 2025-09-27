@@ -104,7 +104,11 @@ const BookForm = () => {
     }
   }, [isEditMode, bookId]);
 
-  const onChange = (e: any) => {
+  const onChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | any
+    >
+  ) => {
     const { name, value, type, checked, files } = e.target;
 
     if (type === "file") {

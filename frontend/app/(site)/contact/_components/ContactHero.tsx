@@ -67,7 +67,7 @@ const ContactHero = () => {
         titleRef.current.innerHTML = titleText
           .split("")
           .map(
-            (char, i) =>
+            (char) =>
               `<span class="char" style="display: inline-block;">${
                 char === " " ? "&nbsp;" : char
               }</span>`
@@ -181,8 +181,8 @@ const ContactHero = () => {
           ref={subtitleRef}
           className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
         >
-          We'd love to hear from you! Whether you have questions about our
-          books, need support, or just want to say hello, we're here to help.
+          We&apos;d love to hear from you! Whether you have questions about our
+          books, need support, or just want to say hello, we&apos;re here to help.
         </p>
       </div>
     </section>
