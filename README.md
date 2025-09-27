@@ -39,18 +39,13 @@ BookStore is a comprehensive e-commerce solution designed specifically for book 
 - **Shopping Cart**: Add/remove items with quantity management
 - **User Authentication**: Secure login/register with JWT tokens
 - **Responsive Design**: Optimized for all device sizes
-- **Search & Filter**: Find books by title, author, category, or price
 - **Book Reviews**: Customer review system with ratings
 
 ### 👨‍💼 Admin Features
 
-- **Dashboard**: Overview of sales, users, and inventory
+- **Dashboard**: Overview of all Books
 - **Book Management**: Add, edit, delete books with image uploads
-- **User Management**: Manage user accounts and permissions
-- **Order Management**: Track and manage customer orders
-- **Category Management**: Organize books into categories
-- **Analytics**: Sales reports and performance metrics
-- **Inventory Tracking**: Stock management and low-stock alerts
+- **Profile** : Display information about admin
 
 ### 🔧 Technical Features
 
@@ -235,8 +230,9 @@ After seeding the database, you can login with:
 ```
 POST /api/users/register    - Register new user
 POST /api/users/login       - User login
-GET  /api/users/profile     - Get user profile
-PUT  /api/users/profile     - Update user profile
+POST /api/users/logout      - User logout
+GET  /api/users/:id         - Get user profile
+GET  /api/users/verify      - User verify
 ```
 
 ### Book Endpoints
@@ -254,8 +250,6 @@ DELETE /api/books/:id       - Delete book (Admin)
 ```
 GET    /api/categories      - Get all categories
 POST   /api/categories      - Create category (Admin)
-PUT    /api/categories/:id  - Update category (Admin)
-DELETE /api/categories/:id  - Delete category (Admin)
 ```
 
 ### Cart Endpoints
@@ -315,7 +309,7 @@ We welcome contributions to improve BookStore! Here's how you can contribute:
 ### 1. Fork the Repository
 
 ```bash
-git fork https://github.com/yourusername/bookstore.git
+git fork https://github.com/Adhamxiii/bookstore.git
 ```
 
 ### 2. Create a Feature Branch
